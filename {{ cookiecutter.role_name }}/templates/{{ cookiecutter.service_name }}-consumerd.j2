@@ -1,0 +1,27 @@
+{% raw %}
+description "{{ kraken_service_name }}"
+author "krill@phicus.es"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+setuid phicus
+setgid phicus
+
+console log
+
+env config=/etc/krill/{{ kraken_service_name }}.env
+
+pre-start script
+[ -e "$config" ] || { stop; exit 0; }
+end script
+
+script
+  set -a
+  . $config
+  exec {{ kraken_venv }}/bin/python -m {{ kraken_service_name }}.consumer
+end script
+
+respawn
+respawn limit 10 5
+{% endraw %}

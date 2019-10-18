@@ -1,0 +1,18 @@
+kraken_service_name: {{ cookiecutter.service_name }}
+{% raw %}
+kraken_venv: /opt/{{ kraken_service_name }}
+{% endraw %}
+kraken_git_root: ssh://git@github.com/phicus
+kraken_git_repo: {{ cookiecutter.git_repo }}
+kraken_git_branch: {{ cookiecutter.git_branch }}
+kraken_pkg_name: {{ cookiecutter.pkg_name | default(cookiecutter.service_name.replace("-", "_")) }}
+
+kraken_log_path: /var/log/krill
+kraken_log_level: INFO
+
+celery_min_procs: 2
+{% raw %}
+celery_max_procs: "{{ [ansible_processor_vcpus, 10] | min }}"
+{% endraw %}
+
+kraken_broker: localhost

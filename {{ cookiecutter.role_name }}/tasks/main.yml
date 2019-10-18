@@ -1,0 +1,54 @@
+---
+{% raw %}
+- name: Create virtualenv with latest pip
+  pip:
+    name: pip
+    state: latest  # At least PIP 18 required
+    virtualenv: "{{ kraken_venv }}"
+    virtualenv_python: "python3"
+
+- name: Install {{ kraken_service_name }}
+  pip:
+    name: "git+{{ kraken_git_root }}/{{ kraken_git_repo }}.git@{{ kraken_git_branch }}#egg={{ kraken_pkg_name }}"
+    state: latest
+    virtualenv: "{{ kraken_venv }}"
+  notify:
+  - restart {{ kraken_service_name }}
+
+- name: Create log dir
+  file:
+    name: "{{ kraken_log_path }}"
+    state: directory
+    owner: phicus
+    group: phicus
+  notify:
+  - restart {{ kraken_service_name }}
+
+- name: Create run dir
+  file:
+    name: "{{ kraken_run_path }}"
+    state: directory
+    owner: phicus
+    group: phicus
+  notify:
+  - restart {{ kraken_service_name }}
+
+- include_tasks: "{{ ansible_service_mgr }}.yml"
+
+- name: Enable {{ kraken_service_name }}
+  service:
+    name: "{{ kraken_service_name }}"
+    state: started
+    enabled: yes
+
+- name: Enable {{ kraken_service_name }}-consumer
+  service:
+    name: "{{ kraken_service_name }}-consumer"
+    state: started
+    enabled: yes
+
+
+- name: flush handlers
+  meta: flush_handlers
+
+{% endraw %}

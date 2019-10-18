@@ -1,0 +1,25 @@
+---
+{% raw %}
+- name: Copy systemd unit
+  template:
+    src: "{{ kraken_service_name }}-celery.service.j2"
+    dest: "/lib/systemd/system/{{ kraken_service_name }}.service"
+  notify:
+  - daemon reload
+  - restart {{ kraken_service_name }}
+
+- name: Copy environment file for {{ kraken_service_name }}
+  template:
+    src: "{{ kraken_service_name }}.env.systemd.j2"
+    dest: "/etc/krill/{{ kraken_service_name }}.env"
+  notify:
+    - restart {{ kraken_service_name }}
+
+- name: Copy systemd unit for {{ kraken_service_name }}-consumer
+  template:
+    src: "{{ kraken_service_name }}-consumer.service.j2"
+    dest: "/lib/systemd/system/{{ kraken_service_name }}-consumer.service"
+  notify:
+    - daemon reload
+    - restart {{ kraken_service_name }}
+{% endraw %}

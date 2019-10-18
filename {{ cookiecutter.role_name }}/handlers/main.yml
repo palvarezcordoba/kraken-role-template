@@ -1,0 +1,20 @@
+---
+- name: daemon reload
+  systemd:
+    daemon_reload: yes
+
+{% raw %}
+- name: restart {{ kraken_service_name }}
+  service:
+    name: "{{ kraken_service_name }}"
+    state: restarted
+  listen: restart {{ kraken_service_name }}
+{% endraw %}
+
+{% raw %}
+- name: restart {{ kraken_service_name }}-consumer
+  service:
+    name: "{{ kraken_service_name }}"-consumer
+    state: restarted
+  listen: restart {{ kraken_service_name }}-consumer
+{% endraw %}

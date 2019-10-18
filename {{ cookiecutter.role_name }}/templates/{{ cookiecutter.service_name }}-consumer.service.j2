@@ -1,0 +1,20 @@
+{% raw %}
+[Unit]
+Description={{ kraken_service_name }} Celery Service
+After=network.target
+
+[Service]
+Type=simple
+User=phicus
+Group=phicus
+EnvironmentFile=/etc/krill/{{ kraken_service_name }}.env
+WorkingDirectory={{ kraken_venv }}
+ExecStart={{ kraken_venv }}/bin/python -m {{ kraken_service_name }}.consumer
+TimeoutStartSec=infinity
+PIDFile={{ kraken_run_path }}/{{ kraken_service_name }}-consumer.pid
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+{% endraw %}

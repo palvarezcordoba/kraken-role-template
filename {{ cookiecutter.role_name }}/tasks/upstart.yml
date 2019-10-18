@@ -1,0 +1,25 @@
+{% raw %}
+- name: Copy celeryd script
+  template:
+    src: "{{ kraken_service_name }}-celeryd.j2"
+    dest: "/etc/init.d/{{ kraken_service_name }}"
+    mode: 0755
+  notify:
+  - restart {{ kraken_service_name }}
+
+- name: Copy environment file for {{ kraken_service_name }}
+  template:
+    src: "{{ kraken_service_name }}.env.init.j2"
+    dest: "/etc/krill/{{ kraken_service_name }}.env"
+    mode: 0400
+  notify:
+  - restart {{ kraken_service_name }}
+
+- name: Copy {{ kraken_service_name }}-consumer script
+  template:
+    src: "{{ kraken_service_name }}-consumerd.j2"
+    dest: "/etc/init/{{ kraken_service_name }}-consumer.conf"
+    mode: 0755
+  notify:
+  - restart {{ kraken_service_name }}-consumer
+{% endraw %}
