@@ -1,7 +1,7 @@
 {
   "role_name": "",
-  "service_name":  "",
-  "pkg_name": "",
-  "git_repo": "",
+  "service_name":  "{{ cookiecutter.role_name }}",
+  "pkg_name": "{{ cookiecutter.service_name.replace('-', '_') }}",
+  "git_repo": "{{ cookiecutter.service_name }}",
   "git_branch": "master"
 }
