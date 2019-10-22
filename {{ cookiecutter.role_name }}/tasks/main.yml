@@ -5,8 +5,9 @@
     name: pip
     state: latest  # At least PIP 18 required
     virtualenv: "{{ kraken_venv }}"
-    virtualenv_python: "python3"
-
+{% endraw %}
+    virtualenv_python: "{{ cookiecutter.python_version }}"
+{% raw %}
 - name: Install {{ kraken_service_name }}
   pip:
     name: "git+{{ kraken_git_root }}/{{ kraken_git_repo }}.git@{{ kraken_git_branch }}#egg={{ kraken_pkg_name }}"
