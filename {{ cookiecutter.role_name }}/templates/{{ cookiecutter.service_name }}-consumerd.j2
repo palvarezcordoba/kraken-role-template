@@ -17,6 +17,10 @@ pre-start script
 end script
 
 script
+  if [ -r /etc/default/locale ]; then
+    . /etc/default/locale
+    export LANG LANGUAGE LC_MESSAGES LC_ALL
+  fi
   set -a
   . $config
   exec {{ kraken_venv }}/bin/python -m {{ kraken_service_name }}.consumer
