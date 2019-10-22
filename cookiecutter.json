@@ -3,5 +3,6 @@
   "service_name":  "{{ cookiecutter.role_name }}",
   "pkg_name": "{{ cookiecutter.service_name.replace('-', '_') }}",
   "git_repo": "{{ cookiecutter.service_name }}",
-  "git_branch": "master"
+  "git_branch": "master",
+  "python_version": "python3"
 }
