@@ -23,7 +23,7 @@ script
   fi
   set -a
   . $config
-  exec {{ kraken_venv }}/bin/python -m {{ kraken_service_name }}.consumer
+  exec {{ kraken_venv }}/bin/python -m {{ kraken_pkg_name }}.consumer
 end script
 
 respawn
